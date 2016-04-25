@@ -53,7 +53,7 @@ def solveLaplacianMesh(mesh, anchors, anchorsIdx):
 #by using their values as anchors and 
 #Inputs: mesh (polygon mesh object), anchors (a K x 3 numpy array of anchor
 #coordinates), anchorsIdx (a parallel array of the indices of the anchors)
-#Returns: Nothing (should update mesh.VPos)
+#Returns: colors (an Nx3 matrix of RGB coordinates for each vertex)
 def smoothColors(mesh, colors, colorsIdx):
     N = mesh.VPos.shape[0]
     colors = np.zeros((N, 3)) #dummy values (all black)
