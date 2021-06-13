@@ -1,0 +1,442 @@
+<!-- Start of Header Code -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="../../main.css" />
+<link rel="icon" href="../../../favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="../../../favicon.ico" type="image/x-icon"/>
+<!--LaTeX in Javascript!-->
+<script src="../../../../jsMath/easy/load.js"></script>
+<!--Syntax highlighting in Javascript!-->
+<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shCore.js"></script>
+<script type="text/javascript" src="../../../syntaxhighlighter/scripts/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushCpp.js"></script>
+<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushMatlabSimple.js"></script>
+<script type="text/javascript" src="../../../../syntaxhighlighter/scripts/shBrushPython.js"></script>
+<link type="text/css" rel="stylesheet" href="../../../../syntaxhighlighter/styles/shCoreDefault.css"/>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<title>COMPSCI/MATH 290: Digital 3D Geometry Spring 2016</title>
+</head>
+<body>
+<div id="wrapper">
+
+<div id="menu-bar">
+<center><h1>COMPSCI/MATH 290: Spring 2016</h1></center>
+<ul class="menus-level0">
+<li><a href="../../index.html">General</a></li>
+<li><a href = "../../syllabus.html">Syllabus</a></li>
+<li><a href = "../../assignments.html">Assignments</a></li>
+<li><a href = "../../finalproject.html">Final Project</a></li>
+<li><a href = "../../raffle.html">Raffle</a></li>
+</ul>
+</div>
+<!-- End of Header Code -->
+
+<div id="page-content">
+<h1>Group Assignment 3: Laplacian Meshes (100 Points)</h1>
+<h2>By <a href = "http://www.ctralie.com">Chris Tralie</a></h2>
+
+<h2><a href = "ArtContest">Click here</a> to see art contest results!</h2>
+
+<ul>
+<li><a href = "#overview">Overview</a>
+<ul>
+<li><a href = "#deadlines">Deadlines / Points</a></li>
+<li><a href = "#codelayout">Code Layout/Hints</a></li>
+</ul>
+</li>
+<li><a href = "#editing">Laplacian Mesh Editing</a>
+<ul>
+<li><a href = "#lapmesh"><font color = "#0000bb">Basic Laplacian Mesh Editing (20 Points)</font></a></li>
+<li><a href = "#cotangent"><font color = "#0000bb">Cotangent Weights (20 Points)</font></a></li>
+<li><a href = "#function">Smooth Function Interpolation / Mesh Coloring (10 Points)</a></li>
+<li><a href = "#sharpening">Mesh Sharpening / Smoothing (10 Points)</a></li>
+<li><a href = "#membrane">Minimal Surfaces (10 Points)</a></li>
+</ul>
+</li>
+
+<li><a href = "#spectral">Spectral Representations / Heat Flow</a>
+<ul>
+<li><a href = "#spectrum">Laplacian Spectrum (10 Points)</a></li>
+<li><a href = "#lowpass">Lowpass Geometry Filtering (10 Points)</a></li>
+<li><a href = "#heat">Heat Flow (15 Points)</a></li>
+<li><a href = "#heatkernel">Heat Kernel Signature (10 Points)</a></li>
+</ul>
+</li>
+
+
+<li><a href = "#param">Parameterization / Texturing</a>
+<ul>
+<li><a href = "#flattening">Mesh Flattening (20 Points)</a></li>
+<li><a href = "#texture">Texture Mapping (10 Points)</a></li>
+</ul>
+</li>
+
+<li><a href = "#art">Art Contest</a>
+<ul>
+<li><a href = "#artsubmission">Art Contest Submission (5 - 20 Points)</a></li>
+</ul>
+</li>
+
+</ul>
+
+<h2><a name = "overview">Overview</a></h2>
+
+For the grand finale of the course, students will use Python/Numpy to implement the Laplacian mesh representation, which is a differential operator on the surface of the mesh which approximates the <b>Laplacian</b> of functions on the surface of the mesh.  The Laplacian is something like the second derivative along the surface of a function at every point of the mesh, as discussed in class.  This representation can be used for a diverse array of tasks in nonrigid geometry processing, such as nonrigid shape editing ("Laplacian mesh editing"), surface function interpolation, compression/denoising, and texture mapping ("uv unwrapping"), to name a few.  Students will have an opportunity to implement all of the above operations in this assignment, and this should lead to a rich art contest.
+
+<ul>
+<li>
+This assignment was inspired by <a href = "http://www.cs.princeton.edu/courses/archive/fall10/cos526/assignment2.html">COS 526 Advanced Computer Graphics: Assignment 2, Fall 2010</a>.  <a href = "http://www.ctralie.com/PrincetonUGRAD/Projects/COS526/Assignment2/">Click here</a> to see my writeup for that assignment when I was an undergraduate.  I went into a lot of detail, so it will likely help you with your development.
+</li>
+</ul>
+
+<h3><a name = "deadlines">Deadlines / Points</a></h3>
+
+As usual, groups of 1-2 have to earn 100 points, and groups of 3 have to earn 120 points.  There will be an intermediate deadline at <b>11:59PM on Monday 4/18</b>, which is to finish <a href = "#editing">Laplacian Mesh Editing</a> and <a href = "#cotangent">Cotangent Weights</a>.  There will be a 15 point penalty for missing this deadline.  The final deadline for the assignment will be on <b>Wednesday 4/27 at 11:59PM</b>.
+
+<h3><a name = "codelayout">Code Layout / Hints</a></h3>
+
+<h3><a href = "Group3_LaplacianMesh.zip">Click here</a> to download the code for this assignment</h3>
+
+You will be filling in code in the file <b><code>LaplacianMesh.py</code></b>, and you will be testing it with a GUI in a file named <b><code><a href = "LapGUI.py">LapGUI.py</a></code></b>.  This code runs on a library I made for dealing with meshes in Python called <a href = "https://github.com/ctralie/S3DGLPy">S3DGLPy</a> (the same library that was used to load and sample meshes for the point cloud classification assignment).  All of the code you write will be operating on a Python object of type <code><a href = "https://github.com/ctralie/S3DGLPy/blob/master/PolyMesh.py">PolyMesh</a></code>.  For this assignment, here's what you need to be aware of:
+
+<ul>
+<li>All of the vertices are stored in an array <code><b>mesh.vertices</b></code>.  Each vertex has a field <code><b>vertex.ID</b></code> which stores its position in the list.  So for instance, <code>mesh.vertices[10].ID</code> is 10<BR><BR></li>
+
+<li>Each vertex has a function <code><b>vertex.getVertexNeighbors()</b></code> which returns a Python array of the 1-ring neighbors of this vertex, <i>not necessarily in any order</i><BR><BR></li>
+
+<li>The geometry for all of the vertices is stored in an <b>N x 3</b> numpy array <code><b>mesh.VPos</b></code>, which is parallel to the array <code>mesh.vertices</code>.  This is the array that you should multiply on the left by the laplacian matrix to get the delta coordinates, and it's also the array you should update after you solve the least squares Laplacian mesh system.  Note that points are each along rows now instead of columns in the ordinary convention<BR><BR></li>
+
+<li>If two vertices share a neighbor, then passing the corresponding two vertex objects to the function <b><code>getEdgeInCommon(v1, v2)</code></b> returns a <code><b>MeshEdge</b></code> object representing their edge, or <code>None</code> if they don't share an edge.  <BR><BR></li>
+
+<li>Each <code>MeshEdge</code> object has two fields <code><b>f1</b></code> and <code><b>f2</b></code> representing the faces on either edge of that edge.  Each face is an object of type <code><b>MeshFace</b></code>.  If the edge is along the boundary, then one or the other will be <code>None</code>.  To check to see if f1 is None, for example, the syntax in Python is
+
+<pre>
+<code>
+if edge.f1:
+    print "f1 is not null"
+if not edge.f1:
+    print "f1 is null"
+</code>
+</pre>
+
+</li>
+
+<li>
+Each <code>MeshFace</code> object has a function <b><code>face.getVertices()</code></b> which returns the vertex objects of that face, <i>not necessarily in any particular order</i><BR><BR>
+</li>
+
+<li>
+You can check to see if two objects are equal in python with <code>==</code><BR><BR>
+</li>
+
+<li>When multiplying an ordinary matrix by a sparse matrix, the return type is <code>numpy.matrix</code> instead of <code>numpy.array</code> for some reason.  So be sure to case the results as a <code>numpy.array</code>, which is what the rest of the code is expecting.  For instance, if you have the Laplacian matrix in a sparse matrix <b>L</b>, then a multiplication by the vertices should be written as 
+
+<pre>
+delta = np.array(L.dot(mesh.VPos))
+</pre>
+
+</li>
+
+</ul>
+
+<h2><a name = "editing">Laplacian Mesh Editing</a></h2>
+
+Note: These laplacian matrices are known to be extremely ill-conditioned, so be sure to fix multiple anchor points where you don't want the surface to move
+
+<h3><a name = "lapmesh"><font color = "#0000bb">Basic Laplacian Mesh Editing (20 Points)</font></a></h3>
+
+<ul>
+<li>Fill in the functions <code><b>getLaplacianMatrixUmbrella(mesh, anchorsIdx)</b></code> and <code><b>solveLaplacianMesh(mesh, anchors, anchorsIdx)</b></code></li>
+</ul>
+
+Set up the Laplacian matrix using umbrella weights and anchors as discussed in class, and solve the system in the least squares sense.  <b>You can assume that all anchors have a weight of 1</b>.  First, show that you can reconstruct the mesh by fixing one anchor, and then show that the system gives rise to stretching when you fix multiple anchors.  To test this, go to the MeshLaplacian menu and click "Select Vertices."  Hold SHIFT+Click to select an anchor point, and then hold CTRL + Click to drag that anchor somewhere else.  The endpoint of the anchor you are currently selecting is drawn in red, and the endpoint of previously selected anchors is drwan in blue.  The image below shows an example:<BR><BR>
+
+<img src = "AnchorSelection.png"><BR><BR>
+
+Then, when you are done, click <code>MeshLaplacian->Solve With Constraints</code>
+
+<BR><BR>
+<div id = "tips">
+Hints:
+<ul>
+<li>If <code>I, J</code>, and <code>V</code> are parallel numpy arrays that hold the rows, columns, and values of nonzero elements, respectively, and the matrix is of size <b>M x N</b>, then the following code makes this into a scipy sparse matrix:
+
+<code>
+<pre>
+L = sparse.coo_matrix((V, (I, J)), shape=(M, N)).tocsr()
+</pre>
+</code>
+<BR>
+</li>
+
+<li>
+If you have a system of equations <b>Ax = b</b> and <b>A</b> is a sparse matrix, then you can solve it by calling sparse least squares<BR>
+
+<code>
+x = scipy.sparse.linalg.lsqr(A, b)[0]
+</code>
+<BR>
+(and actually you can just write <code>lsqr</code> because I imported it in the starter code)
+<BR><BR>
+</li>
+
+<li>
+This system of equations is known to have very poor <a href = "https://en.wikipedia.org/wiki/Condition_number#Matrices">conditioning</a>.  Because of this, you should fix several anchors all over the mesh where you want it to stay stationary, in addition to the ones you want to move, to see the best results
+</li>
+
+</ul>
+</div>
+
+<h3><a name = "cotangent"><font color = "#0000bb">Cotangent Weights (20 Points)</font></a></h3>
+
+<ul>
+<li>Fill in the function <code><b>getLaplacianMatrixCotangent(mesh, anchorsIdx)</b></code></li>
+</ul>
+
+Fill in the laplacian matrix with cotangent weights.  That is, fill in the matrix so that
+
+\[ L_{ij} = -\frac{1}{2} (\cot(\beta_{ij}) + \cot(\alpha_{ij})) \]
+
+and
+
+\[ L_{ii} = -\sum_{j = 1, j \neq i}^N L_{ij}  \]
+
+as shown in the figure below:<BR><BR>
+
+<img src = "DiscretizedLaplacian.svg"><BR><BR>
+
+You can assume that this is a triangle mesh so that there is exactly one vertex across a face from an edge.  Then, change your <code>solveLaplacianMesh()</code> function so that it uses cotangent weights instead of umbrella weights, and highlight the difference on at least one mesh in your README.
+
+<BR><BR>
+<div id = "tips">
+Hints:
+<ul>
+<li>The cotangent is cosine over sine.  Recall that 
+
+\[ \vec{u} \cdot \vec{v} = ||\vec{u}|| || \vec{v} || \cos(\theta) \]
+
+and
+
+\[ ||\vec{u} \times \vec{v}|| = ||\vec{u}|| || \vec{v} || \sin(\theta)\]
+
+See if you can use this fact to help you to get the cotangent (be sure to make use of the command <code>np.cross</code>)<BR><BR>
+
+</li>
+
+<li>Cotangent weights aren't a cure-all, especially when there are a lot of obtuse triangles (since the weights will be negative in that case).  So if you see bad results on a particular mesh, don't despair...switch back to umbrella.  They should at least improve the results on the homer mesh, though, as shown in class, and they should perform better for smoothing/sharpening below <BR><BR></li>
+
+</ul>
+</div>
+
+<h3><a name = "function">Smooth Function Interpolation / Mesh Coloring (10 Points)</a></h3>
+
+<ul>
+<li>Fill in the function <code><b>smoothColors(mesh, colors, colorsIdx)</b></code></code></li>
+</ul>
+
+Given a function on the surface of a mesh specified at a few indices, you can do smooth blending of that function across the surface by specifying the function values as anchors in the Laplacian system, and setting the delta coordinates to be zero everywhere.  Setting them to zero is like saying the function should minimize the second derivative everywhere, hence the smoothness of the interpolation.  You can use this to "color" the entire mesh with very few clicks.  In the code, an array called <code>colors</code> is passed along with the RGB values at the indices <code>colorsIdx</code>, and you need to fill in the rest of the colors by doing this function smoothing/completion for each color channel.  Below shows an example:<BR><BR>
+
+<table>
+<tr><td><img src = "ColorChoices.png"></td><td><img src = "ColorSolution.png"></td></tr>
+</table>
+
+You select the colors in the GUI by going to the menu <code>MeshColoring->Select Color Vertices</code>.  Hold down SHIFT + Left Click to select vertices you want to color, just as you did for the Laplacian mesh editor.  And then choose their color by holding down CTRL + Left click and clicking on a color in the lower left in the color chooser that's popped up:<BR><BR>
+
+<img src = "ColorChooser.png"><BR><BR>
+
+when you've chosen the colors you want, click <code>MeshColoring->Interpolate Colors</code> to test your code
+
+<div id = "tips">
+Hints:
+<ul>
+<li>The code for this should be <i>incredibly</i> similar to the code you wrote to do laplacian mesh editing.  You just have to change the delta coordinates to be zero, and the functions on the surface are color channels instead of vertex coordinates (but they can all just be thought of as functions)</li>
+
+</ul>
+</div>
+
+<h3><a name = "sharpening">Mesh Sharpening / Smoothing (10 Points)</a></h3>
+<ul>
+<li>Fill in the functions <code><b>doLaplacianSmooth(mesh)</b></code> and <code><b>doLaplacianSharpen(mesh)</b></code>.  You can test these by clicking <code>MeshLaplacian->Laplacian Smooth/Sharpen</code> (no anchors needed)</li>
+</ul>
+
+
+You can use your Laplacian matrix to make simple, efficient surface sharpening and smoothing procedures, which can be shown to work like high and lowpass filters, respectively, by examining their effect on the mesh spectrum.  Let <b>L</b> be the square laplacian matrix, and let <b>L<SUB>N</SUB></b> be the laplacian matrix with each row divided by the sum of the weights of that vertex (so e.g. for umbrella each row should be divided by the degree), so that the diagonal part is all 1s.  For the umbrella weights, for example, this normalization gives the vector from the centroid of the neighboring vertices to the vertex.  Then to smooth the mesh, apply
+
+\[ V' = V - L_N V \]
+
+and to sharpen the mesh, apply
+
+\[ V' = V + L_N V \]
+
+
+<h3><a name = "membrane">Minimal Surfaces (10 Points)</a></h3>
+
+<ul>
+<li>Fill in the function <code><b>makeMinimalSurface(mesh, anchors, anchorsIdx)</b></code>.  You can test this by placing anchors and clicking <code>MeshLaplacian->Minimal Surface</code></li>
+</ul>
+
+A <a href = "https://en.wikipedia.org/wiki/Minimal_surface">minimal surface</a> is a surface which has a mean curvature of zero, and which equivalently minimizes local surface area.  To simulate one, use your original Laplacian matrix (either umbrella or cotangent weights for the purposes of this assignment), but set all delta coordinates to zero.  Then, add anchors at particular positions to "anchor" this minimal surface in space with constraints, and apply the least squares laplacian mesh editing.  You can think of the anchors as positions along a wire, and the surface as a soap bubble that forms inside of the wires. <a href = "http://bugman123.com/MinimalSurfaces/index.html">Click here</a> to see some crazy examples.<BR><BR>
+
+<b>NOTE:</b> For this task, it will work better if instead of having anchors at the bottom, you overwrite the corresponding rows of the upper square laplacian matrix with the anchor rows, and you should do this.  So for instance, if you want to anchor a point at index 100 with the position (a, b, c), then row 100 of <b>L</b> should contain all zeros except for a 1 at column 100, and row 100 of the "delta coordinates" should be (a, b, c).  The rows corresponding to non-anchor vertices should still be as before, representing the Laplacian at that vertex.  Below is an example of the result I got when anchoring the 8 corners of the <a href = "meshes/cubehighres.off">high resolution cube mesh</a> that way:<BR><BR>
+<img src = "cubemembrane.jpg">
+
+
+
+
+<h2><a name = "spectral">Spectral Representations / Heat Flow</a></h2>
+
+<h3><a name = "spectrum">Laplacian Spectrum (10 Points)</a></h3>
+
+<ul>
+<li>Fill in the function <code><b>getLaplacianSpectrum(mesh, K)</b></code></code></li>
+</ul>
+
+<table>
+<tr><td><img src = "bird1.png"></td><td><img src = "bird4.png"></td><td><img src = "bird16.png"></td></tr>
+</table>
+
+As explained in class, the eigenvectors of the Laplacian matrix are analagous to a Fourier modes of functions along the surface of the mesh.  To view the different "modes" of the surface, write code which computes them.  To test your code, click <code>MeshLaplacian->GetSpectrum</code>.  This code will save <code>SPECTRUM_K</code> modes to a series of .off files "spectrumX.off", where X ranges from 0 to <code>SPECTRUM_K-1</code>.  <code>SPECTRUM_K</code> is a constant which is defined at the top of the GUI (default 20), which you can change.  You can view the different modes by loading them into the GUI or by looking at them in <a href = "http://meshlab.sourceforge.net/">meshlab</a><BR><BR>
+
+<b>In your readme, explain what you're seeing as you transition from eigenvectors which have small eigenvalues to those which have larger ones.</b><BR><BR>
+
+<div id = "tips">
+<ul>
+<li>As explained in <a href = "http://stackoverflow.com/questions/12125952/scipys-sparse-eigsh-for-small-eigenvalues">this Stackoverflow post</a>, to get the <b>K</b> smallest eigenvectors/eigenvalues of a sparse, symmetric matrix <b>A</b>, you should use the command<BR><BR>
+
+<code>(eigvalues, eigvectors) = scipy.sparse.linalg.<a href = "http://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigsh.html#scipy.sparse.linalg.eigsh">eigsh</a>(A, K, which='LM', sigma = 0)</code>
+
+<BR><BR>
+</li>
+</ul>
+</div>
+
+<h3><a name = "lowpass">Lowpass Geometry Filtering (10 Points)</a></h3>
+
+<ul>
+<li>Fill in the function <code><b>doLowpassFiltering(mesh, K)</b></code></code></li>
+</ul>
+
+As shown in class, you can do something analagous to a lowpass Fourier filtering by projecting functions onto the lower eigenvectors of the Laplacian matrix of a surface.  Let <code>U<SUB>K</SUB></code> be a matrix with the first <b>K</b> eigenvectors in the columns of the matrix, and let <code>V</code> be a matrix with the x coordinates of all of the vertices along the first column, the y coordinates along the second column, and the z coordinates along the third column.  Then you can project the coordinates of the geometry onto them with
+
+\[ V' = U_K U_K^T V \]
+
+<b>Show that you can denoise <a href = "meshes/homernoise.off">homernoise.off</a> with this technique</b>.  Also show a screenshot on at least one other mesh (lowpassing with very few frequencies looks quite interesting, as shown in class).  You can vary the number of eigenvectors you choose by editing the variable <code>LOWPASS_K</code> at the top of the GUI file.  Its default value is 20, which is quite low (it takes up to 500 for homer to start looking reasonable, for example, as shown in class)
+
+<h3><a name = "heat">Heat Flow (15 Points)</a></h3>
+
+<ul>
+<li>Fill in the function <code><b>getHeat(mesh, eigvalues, eigvectors, t, initialVertices, heatValue = 100.0)</b></code></code></li>
+</ul>
+
+As shown in class, given an initial heat distribution <b>f<SUB>0</SUB></b> over a surface, the solution to the heat equation is
+
+<h3>
+\[ f(t) = \sum_k (f_0^T \phi_k) e^{-\lambda_k t} \phi_k \]
+</h3>
+
+where <b>\phi<SUB>k</SUB></b> is the <b>k<SUP>th</SUP></b> eigenvector and <b>\lambda<SUB>k</SUB></b> is the associated eigenvalue of the laplacian matrix.  Given an initial set of point locations "initialVertices," apply "heatValue" amount of heat to them at the beginning of time, and return the amount of heat on all the vertices at time <b>t</b> according to the above equation.  <BR><BR>
+
+To test this, click on <code>MeshLaplacian->Do Heat Flow Simulation</code>.  This will output a bunch of files called <b>heatX.png</b>, where X ranges from 0 to 89 (so you can use this to make a 90 frame vide).  To change the number of eigenvectors/eigenvalues used in the computation, feel free to change the variable <code>HEAT_K</code> at the top of the GUI.  The more you use, the better the approximation will be for the initial heat distribution (though it won't matter so much after the first few frames since heat dissipates exponentially quickly).  Below is an example of selecting the initial conditions as heat on the tips of Homer's 8 fingers<BR><BR>
+
+<table>
+<tr><td>Selecting Initial Heat Vertices</td><td>Heat Flow Animation</td></tr>
+<tr><td><img src = "HomerHeatSelect.png"></td>
+<td><iframe width="328" height="545" src="https://www.youtube.com/embed/DLvtQoOMqyE" frameborder="0" allowfullscreen></iframe></td>
+</tr>
+</table>
+
+<div id = "tips">
+Hints:
+<ul>
+<li>The eigenvalues and eigenvectors passed along are precomputed using your code in <code>getLaplacianSpectrum</code> to save computation running the heat simulation</li>
+
+</ul>
+</div>
+<BR>
+
+
+<h3><a name = "heatkernel">Heat Kernel Signature (10 Points)</a></h3>
+
+<ul>
+<li>Fill in the function <code><b>getHKS(mesh, K, t)</b></code></code></li>
+</ul>
+
+As shown in class and described in <a href = "http://www.lix.polytechnique.fr/~maks/papers/hks.pdf">this paper</a>, a multiscale descriptor of curvature can be computed by looking at how much heat stays at each vertex after a certain amount of time has elapsed, with the following equation:
+
+<h3>
+\[ h_t[i] = \sum_k e^{-\lambda_k t} \phi_k[i]^2 \]
+</h3>
+
+The larger the t, the more the curvature estimate is "regularized" (smoothed out).  You can change the variables <code>HKS_K</code> and <code>HKS_T</code>, to change the number of eigenvectors used in the estimate and the time, respectively.  Below shows a screenshot of two different times used on the homer mesh
+<BR><BR>
+<table>
+<tr><td>t = 20</td><td>t = 500</td></tr>
+<tr><td><img src = "HomerHKS_20.png"></td><td><img src = "HomerHKS_500.png"></td></tr>
+</table>
+<BR><BR>
+Notice how for a smaller t, the curvature on the original fingers is resolvable, whiel in the smoothed version the whole hand contributes to one large curved region all merged together.
+
+<h2><a name = "param">Parameterization / Texturing</a></h2>
+
+
+<h3><a name = "flattening">Mesh Flattening (20 Points)</a></h3>
+<ul>
+<li>Fill in the function <code><b>doFlattening(mesh, quadIdxs)</b></code></code></li>
+</ul>
+
+You can use Laplacian mesh editing to parameterize a surface with two coordinates.  In other words, you can flatten the surface to the plane.  To do this, use the Laplacian mesh anchor selector to select four vertices that go in counter-clockwise order around two triangles which share an edge, as shown in the picture below:<BR><BR>
+
+<img src = "SelectingSquare.png"><BR><BR>
+
+Then, build your laplacian matrix, ignoring the edge that connects the two triangles (effectively removing the two triangle faces from the mesh).  Then, set all of the delta coordinates to zero, but put anchors of the four points at (0, 0, 0), (0, 1, 0), (1, 1, 0), and (1, 0, 0).  You will want to overwrite rows in the upper square matrix instead of putting the anchors at the bottom, as you did in the <a href = "#membrane">minimal surfaces task</a>, and you will also want to use umbrella weights instead of cotangent weights <a href = "http://www.ctralie.com/PrincetonUGRAD/Projects/COS526/Assignment2/#parameterization">as explained in my undergraduate writeup</a>.  When you do all of this and solve the system, the points will try to be the average of their neighbors, and this will have the effect of flattening everything inside of the unit square in the XY plane.  Below shows two views of doing this on the homer mesh:<BR><BR>
+
+<table>
+<tr><td><img src = "homerparam2.jpg"></td><td><img src = "homerparam3.jpg"></td></tr>
+</table>
+<BR><BR>
+You can test your code out by clicking <code>MeshLaplacian->Do Flattening</code>
+
+<h3><a name = "texture">Texture Mapping (10 Points)</a></h3>
+<ul>
+<li>Fill in the function <code><b>getTexCoords(mesh, quadIdxs)</b></code></code></li>
+</ul>
+
+Now that you have a way to flatten the mesh to the plane, you can wrap a texture around it by taking the x coordinate of each point to be the length along the image you want to wrap around and the y coordinate to be the height along the image.  This is called <a href = "https://en.wikipedia.org/wiki/UV_mapping">UV mapping</a>.  Return an <b>N x 2</b> matrix with the u coordinates of each point along the first column and the v coordinates of each point along the second column.  When you test your code by clicking <code>MeshLaplacian->Compute UV Coordinates</code>, the GUI will automatically render a texture on your mesh using the UV coordinates you have.  The texture will be whatever you put in the image <a href = "texture.png">texture.png</a> (by default, a checkerboard).<BR><BR>
+
+<div id = "tips">
+Hints:
+<ul>
+<li>You're basically just reusing your code from above but returning the texture coordinates separately instead of updating the geometry.  Just make sure all of your texture coordinates are actually in the unit square</li>
+
+</ul>
+</div>
+
+<h2><a name = "art">Art Contest</a></h2>
+
+<h3><a name = "artsubmission">Art Contest Submission (5 - 20 Points)</a></h3>
+
+You know the drill by now.  5 points for a submission, 20 points for the winner.  The winner's points may be applied towards extra credit, while everyone else's scores are capped at 100%.<BR><BR>
+
+<h2>Have fun!!</h2>
+
+</div>
+
+<!-- Start of StatCounter Code -->
+<script type="text/javascript">
+var sc_project=7309088; 
+var sc_invisible=1; 
+var sc_security="f655b56d"; 
+</script>
+<script type="text/javascript"
+src="http://www.statcounter.com/counter/counter.js"></script>
+<noscript><div class="statcounter"><a title="free hit counter"
+href="http://statcounter.com/" target="_blank"><img class="statcounter"
+src="http://c.statcounter.com/7309088/0/f655b56d/1/" alt="free hit
+counter"></a></div></noscript>
+<!-- End of StatCounter Code -->
+
+</body>
+</html>
+
+
+

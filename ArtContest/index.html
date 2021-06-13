@@ -1,0 +1,316 @@
+<!-- Start of Header Code -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="../../../main.css" />
+<link rel="icon" href="../../../../favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="../../../../favicon.ico" type="image/x-icon"/>
+<!--LaTeX in Javascript!-->
+<script src="../../../../../jsMath/easy/load.js"></script>
+<!--Syntax highlighting in Javascript!-->
+<script type="text/javascript" src="../../../../../syntaxhighlighter/scripts/shCore.js"></script>
+<script type="text/javascript" src="../../../../../syntaxhighlighter/scripts/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../../../../syntaxhighlighter/scripts/shBrushCpp.js"></script>
+<script type="text/javascript" src="../../../../../syntaxhighlighter/scripts/shBrushMatlabSimple.js"></script>
+<script type="text/javascript" src="../../../../../syntaxhighlighter/scripts/shBrushPython.js"></script>
+<link type="text/css" rel="stylesheet" href="../../../../../syntaxhighlighter/styles/shCoreDefault.css"/>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<title>COMPSCI/MATH 290: Digital 3D Geometry Spring 2016</title>
+</head>
+<body>
+<div id="wrapper">
+
+<div id="menu-bar">
+<center><h1>COMPSCI/MATH 290: Spring 2016</h1></center>
+<ul class="menus-level0">
+<li><a href="../../../index.html">General</a></li>
+<li><a href = "../../../syllabus.html">Syllabus</a></li>
+<li><a href = "../../../assignments.html">Assignments</a></li>
+<li><a href = "../../../finalproject.html">Final Project</a></li>
+<li><a href = "../../../raffle.html">Raffle</a></li>
+</ul>
+</div>
+<!-- End of Header Code -->
+
+<div id="page-content">
+<h1><a href = "../">Group Assignment 3</a><BR>Laplacian Meshes<BR><b>ART CONTEST RESULTS</b></h1>
+
+In this assignment, groups implemented a differential representation of a surface mesh known as the <b>Laplacian Mesh</b> representation.  This enabled a variety of applications, such as dragging points to make the mesh deform nonrigidly ("Laplacian mesh editing"), interpolating functions across surfaces, geometry filtering, mesh flattening, heat flow, and curvature estimation.
+
+<BR><BR>
+Results are below.  <i>Student analysis from their README files is provided in quotes where appropriate</i>
+
+<h1>Billy/Jay/Lydia</h1>
+
+<h2>Cotangent vs Umbrella Weights</h2>
+
+<table>
+<tr><td><h3>Umbrella</h3></td><td><h3>Cotangent</h3></td></tr>
+<tr>
+<td><img src = "Billy_Jay_Lydia/UmbrellaWeights.png"></td>
+<td><img src = "Billy_Jay_Lydia/CotangentWeights.png"></td>
+</tr>
+</table>
+
+<h2>Homer Spectral Modes</h2>
+<table>
+<tr><td><h3>1</h3></td><td><h3>10</h3></td><td><h3>20</h3></td></tr>
+<tr>
+<td><img src = "Billy_Jay_Lydia/1.png"></td>
+<td><img src = "Billy_Jay_Lydia/10.png"></td>
+<td><img src = "Billy_Jay_Lydia/20.png"></td>
+</tr>
+</table>
+
+<h2>Cheetah Lowpass 20 Eigenvectors</h2>
+<img src = "Billy_Jay_Lydia/cheetah-lowpass-20.jpg.png"><BR><BR>
+Looks quite malnourished...<BR><BR>
+
+
+<HR>
+<h1>John/Natalie/Zach (<font color = "red">Winners!!</font>)</h1>
+
+<h2>Sharpened Cheetah</h2>
+<img src = "John_Natalie_Zach/SharpenedCheetah.png"><BR><BR>
+"He's been lifting a lot"<BR><BR>
+
+<h2>Threatening Lowpass Dragon</h2>
+<img src = "John_Natalie_Zach/LowpassDragon.png">
+
+<h2>Lowpass Teapot</h2>
+<img src = "John_Natalie_Zach/LowpassTeapot.png">
+
+<h2>Disembodied Checkered Homer</h2>
+<img src = "John_Natalie_Zach/HomerCheckered.png">
+
+<h2>Dressing Homer</h2>
+<img src = "John_Natalie_Zach/DressedHomer.png"><BR><BR>
+Goal image found at <a href = "​http://bit.ly/1qfmScU">http://bit.ly/1qfmScU</a><BR><BR>
+
+<h2>Argentine Soccer Homer</h2>
+<img src = "John_Natalie_Zach/ArgentineSoccerHomer.png">
+
+<h2>Walking Homer</h2>
+
+<img src = "John_Natalie_Zach/HomerWalking.gif">
+
+
+<HR>
+<h1>Brandon/Nina/Cosi (<font color = "red">Runners Up</font>)</h1>
+
+<h2>Cheetah Heat Flow</h2>
+<iframe width="420" height="315" src="https://www.youtube.com/embed/MFitT801SNI" frameborder="0" allowfullscreen></iframe>
+
+<h2>Colors Dragon</h2>
+<img src = "Brandon_Nina_Cosi/colors_dragon.jpg">
+
+<h2>Flattening Teapot</h2>
+<img src = "Brandon_Nina_Cosi/flattening_teapot3.jpg">
+
+<h2>Giraffe</h2>
+<img src = "Brandon_Nina_Cosi/giraffe.jpg">
+
+<h2>Homer Blooper</h2>
+<img src = "Brandon_Nina_Cosi/homer_ball_lol.jpg">
+
+<h2>Lowpass Homer</h2>
+<img src = "Brandon_Nina_Cosi/lowpass_homer.jpg">
+
+<h2>Man Flames</h2>
+<img src = "Brandon_Nina_Cosi/man_flames.jpg">
+
+<h2>Striped Cow</h2>
+<img src = "Brandon_Nina_Cosi/striped_cow.jpg">
+
+<HR>
+<h1>Chalena/Ba'Carri (<font color = "red">Runners Up</font>)</h1>
+
+<h2>Bird Flapping</h2>
+
+<table>
+<tr><td>Anchor Selection</td><td>Umbrella Weights</td><td>Cotangent Weights</td></tr>
+<tr>
+<td><img src = "Chalena_BaCarri/bird_before.png"></td>
+<td><img src = "Chalena_BaCarri/bird_umbrella.png"></td>
+<td><img src = "Chalena_BaCarri/bird_cotangent.png"></td>
+</tr>
+</table>
+
+"This makes sense considering what was said during class about the cotangent weights using angles, thus leading to better preservation during deformation and a visually smoother result."
+
+<h2>Hot Dragon</h2>
+<img src = "Chalena_BaCarri/hotdragon.png">
+
+<h2>Blooper Colored</h2>
+<img src = "Chalena_BaCarri/coloredblooper.png">
+
+<h2>Flattened Teapot</h2>
+<table>
+<tr>
+<td><img src = "Chalena_BaCarri/teapotbefore.png"></td>
+<td><img src = "Chalena_BaCarri/flattenedteapot.png"></td>
+<td><img src = "Chalena_BaCarri/flattenedteapotedgespoints.png"></td>
+</tr>
+</table>
+
+<h2>Chris's Face Checkerboard</h2>
+
+<table>
+<tr>
+<td><img src = "Chalena_BaCarri/chrisheadbefore.png"></td>
+<td><img src = "Chalena_BaCarri/chrisheadafteredges.png"></td>
+<td><img src = "Chalena_BaCarri/chrisheadafter.png"></td>
+</tr>
+</table>
+"We decided to do texture mapping using the default chessboard on Chris's face... Coincidentally
+this might be a good makeup idea for next Halloween"
+
+<HR>
+<h1>Brooks</h1>
+
+<h2>Dragon Flattened</h2>
+<table>
+<tr>
+<td><img src = "Brooks/dragon.png"></td>
+<td><img src = "Brooks/dragon-flattened.png"></td>
+</tr>
+</table>
+
+<h2>Homer Smoothing Bloopers</h2>
+<table>
+<tr>
+<td><img src = "Brooks/homer-smoothing-blooper.png"></td>
+<td><img src = "Brooks/homer-smooth-blooper-2.png"></td>
+</tr>
+</table>
+
+<h2>Teapot Laplacian Smoothed 3x</h2>
+<img src = "Brooks/teapot-smooth-3.png">
+
+<h2>Teapot Minimal Surface</h2>
+<table>
+<tr>
+<td><img src = "Brooks/teapot-minimal-before.png"></td>
+<td><img src = "Brooks/teapot-minimal-after.png"></td>
+</tr>
+</table>
+"The minimal surface preserves the topology of handle when six anchors are set in the teapot mesh"
+
+<HR>
+<h1>Clem/Sanmi/Gray</h1>
+"We submitted funny or scary/unsetttling results discovered during testing"
+
+<h2>"Homer Creepy AF Blooper"</h2>
+<img src = "Clem_Sanmi_Gray/HomerCreepyAFBlooper.png">
+
+<h2>"Homer Umbrella 2"</h2>
+<img src = "Clem_Sanmi_Gray/homerUmb2.png">
+
+<h2>"Short Homer Blooper"</h2>
+<img src = "Clem_Sanmi_Gray/ShortHomerBlooper.png">
+
+<h2>"Squashed Homer Blooper"</h2>
+<img src = "Clem_Sanmi_Gray/SquashedHomerBlooper.png">
+
+<HR>
+<h1>Joy/Roger</h1>
+
+<h2>Stubby Homer</h2>
+<img src = "Joy_Roger/HomerStubby.png">
+<BR>
+"This was a mesh which we encountered while implementing cotangent weights.  It occurs when we pick anchors to raise Homer's arms and stationary points on Homer's chest and face, but not on Homer's feet.  Cotangent weights on this configuration squeezes Homer.  I thought this was a bug for the longest time, but its actually not.  Good learning experience."
+
+<HR>
+<h1>Sarah/Mingxuan/Yuhan</h1>
+
+<h2>Disco Homer!</h2>
+
+<img src = "Sarah_Mingxuan_Yuhan/DiscoHomer.png">
+
+<h2>Angry Cold Hands Homer (Laplacian Eigen Mode Number 5)</h2>
+
+<img src = "Sarah_Mingxuan_Yuhan/spec5pic.png">
+
+<h2>Bird Checkerboard</h2>
+
+<img src = "Sarah_Mingxuan_Yuhan/TextureMapping.png">
+
+<HR>
+<h1>Siyang/Shenghan/Jincheng</h1>
+
+<h2>Lowpass Homer 300 Eigenvectors</h2>
+<img src = "Siyang_Shenghan_Jincheng/LowpassHomer300.jpg">
+
+<h2>Heat Flow Homer Fingers</h2>
+<img src = "Siyang_Shenghan_Jincheng/heatflow_homer.gif">
+
+
+<HR>
+<h1>Parit/Justin</h1>
+
+<h2>Cheetah Lowpass 50 Eigenvectors</h2>
+<img src = "Parit_Justin/cheetah_k50.png"><BR><BR>
+"It has no face!"<BR><BR>
+
+<h2>Denoised Homer 666 Eigenvectors</h2>
+
+<table>
+<tr><td>Noisy Homer Before</td><td>Lowpass Filtered 666 Eigenvectors</td></tr>
+<tr><td><img src = "Parit_Justin/NoisyHomer.png"></td><td><img src = "Parit_Justin/DenoisedHomer666.png"></td></tr>
+</table>
+
+
+<HR>
+<h1>Erin/Nick</h1>
+
+<h2>Smooth Cow</h2>
+<img src = "Erin_Nick/smoothcow.png">
+
+<h2>Lowpass Homer, 20 Eigenvectors</h2>
+<img src = "Erin_Nick/Homer20.png">
+
+<h2>Cheetah Colored</h2>
+<img src = "Erin_Nick/cheetahcolored.png">
+
+<h2>Bird Colored</h2>
+
+<img src = "Erin_Nick/art1.png"><BR><BR>
+
+<img src = "Erin_Nick/art2.png">
+
+<HR>
+<h1>Annie / Mingyuan</h1>
+
+<h2>Heat Flow Homer</h2>
+<iframe width="420" height="315" src="https://www.youtube.com/embed/_rJfhRh8aGM" frameborder="0" allowfullscreen></iframe>
+
+<h2>Lowpass Homer</h2>
+<img src = "Annie_Mingyuan/lowpass_homer.png">
+
+<h2>Lowpass Teapot</h2>
+<img src = "Annie_Mingyuan/lowpass_teapot.png">
+
+</div>
+
+
+
+
+
+<!-- Start of StatCounter Code -->
+<script type="text/javascript">
+var sc_project=7309088; 
+var sc_invisible=1; 
+var sc_security="f655b56d"; 
+</script>
+<script type="text/javascript"
+src="http://www.statcounter.com/counter/counter.js"></script>
+<noscript><div class="statcounter"><a title="free hit counter"
+href="http://statcounter.com/" target="_blank"><img class="statcounter"
+src="http://c.statcounter.com/7309088/0/f655b56d/1/" alt="free hit
+counter"></a></div></noscript>
+<!-- End of StatCounter Code -->
+
+</body>
+</html>
+
+
+
